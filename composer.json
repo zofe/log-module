@@ -16,7 +16,8 @@
         "livewire/livewire": "^2.0",
         "zofe/rapyd-livewire": "dev-main|^0.8",
         "zofe/rapyd-module-installer": "^0.0|^0.1",
-        "zofe/layout-module": "dev-main|^0.0|^0.1"
+        "zofe/layout-module": "dev-main|^0.0|^0.1",
+        "spatie/laravel-activitylog": "^3.0|^4.0"
     },
     "require-dev": {
         "orchestra/testbench": "^v6.0|^v7.0|^v8.0",
