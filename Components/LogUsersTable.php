@@ -46,8 +46,10 @@ class LogUsersTable extends Component
         if ($this->date_to) {
             $items = $items->where('created_at', '<=', Carbon::parse($this->date_to)->endOfDay());
         }
+        return $items
+            ->orderBy($this->sortField,$this->sortAsc ?'asc':'desc')
+            ->paginate($this->perPage);
 
-        return $items;
     }
 
     public function render()
