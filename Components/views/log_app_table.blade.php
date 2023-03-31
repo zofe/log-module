@@ -1,6 +1,6 @@
 <x-rpd::card>
     <x-rpd::table
-        title="User Logs"
+        title="App Logs"
         :items="$items"
     >
         <x-slot name="filters">
@@ -15,47 +15,39 @@
             <thead>
             <tr>
                 <th>
-                    author
+                    Level
                 </th>
                 <th>
-                    subject
+                    Context
                 </th>
                 <th>
-                    <x-rpd::sort model="log_name" label="log name" />
+                    Date
                 </th>
                 <th>
-                    <x-rpd::sort model="description" label="description" />
+                    Content
                 </th>
-                <th class="text-nowrap">
-                    Data
-                </th>
-                <th class="d-none d-lg-table-cell">
-                    <x-rpd::sort model="created_at" label="created_at" />
-                </th>
+
 
             </tr>
             </thead>
             <tbody>
-            @php /** @var $log \App\Modules\Log\Models\Activity */ @endphp
+
             @foreach ($items as $log)
                 <tr>
                     <td>
-                        <x-log::causer-user :log="$log"></x-log::causer-user>
+                        {{ $log['level'] }}
+
                     </td>
-                    <td style="width: 200px">
-                        <x-log::logged-object :log="$log"></x-log::logged-object>
-                    </td>
-                    <td class="text-nowrap small">
-                        {{ $log->log_name }}
-                    </td>
-                    <td class="text-gray-900">{{ $log->description }}</td>
-                    <td style="max-width: 250px;" class="small">
-                        <div style="max-height: 200px; overflow-y: auto">
-                            {{ count($log->properties) ? $log->properties : '-' }}
-                        </div>
+                    <td>
+                        {{ $log['context'] }}
                     </td>
                     <td class="text-nowrap small">
-                        {{ $log->created_at->format('d/m/Y H:i:s') }}
+                        {{ \Carbon\Carbon::parse($log['date'])->format('d/m/Y H:i:s') }}
+                    </td>
+                    <td class="small">
+
+                        {{ $log['text'] }}
+{{--                        {{ $log['stack'] }}--}}
                     </td>
                 </tr>
             @endforeach
