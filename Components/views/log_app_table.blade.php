@@ -4,6 +4,7 @@
         :items="$items"
     >
         <x-slot name="filters">
+            <x-rpd::select col="col" lazy model="logFile" :options="$logFiles" placeholder="log file..." addempty />
             <x-rpd::input col="col" debounce="350" model="search"  placeholder="search..." />
         </x-slot>
 

@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Component;
-use League\Flysystem\Filesystem;
-use League\Flysystem\Local\LocalFilesystemAdapter;
+
 
 use Zofe\Auth\Traits\Authorize;
 use Zofe\Rapyd\Traits\WithDataTable;
@@ -54,6 +53,16 @@ class LogAppTable extends Component
         $this->authorize('admin');
     }
 
+    public function updatedSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedLogFile()
+    {
+        $this->resetPage();
+    }
+
     public function mount()
     {
         $this->perPage = 50;
@@ -70,11 +79,6 @@ class LogAppTable extends Component
             $this->logFile = $this->logFiles[0];
         }
 
-    }
-
-    public function updatedSearch()
-    {
-        $this->resetPage();
     }
 
     protected function setDisk()
@@ -94,9 +98,6 @@ class LogAppTable extends Component
         $log = [];
         if($this->logFile) {
             $file = Storage::disk('log')->get($this->logFile);
-            $numLines = 10;
-            //$stream = Storage::disk('log')->readStream($this->logFile);
-
 
             preg_match_all('/\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}([\+-]\d{4})?\].*/', $file, $headings);
 
@@ -129,7 +130,7 @@ class LogAppTable extends Component
                                 'date' => $current[1],
                                 'text' => $current[4],
                                 'in_file' => isset($current[5]) ? $current[5] : null,
-                                'stack' => preg_replace("/^\n*/", '', $log_data[$i])
+                                //'stack' => preg_replace("/^\n*/", '', $log_data[$i])
                             );
                         }
                     }
