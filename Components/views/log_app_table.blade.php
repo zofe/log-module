@@ -12,6 +12,25 @@
             <a href="{{ route('log.users') }}" class="btn btn-outline-dark">reset</a>
         </x-slot>
 
+
+        <x-rpd::modal
+            width="xl"
+            name="stack"
+            title="Error Stack"
+        >
+            <div class="small">
+                <pre class="small">
+                    <code>
+ {{ $stack }}
+                    </code>
+
+                </pre>
+
+            </div>
+
+
+        </x-rpd::modal>
+
         <table class="table table-sm">
             <thead>
             <tr>
@@ -27,6 +46,9 @@
                 <th>
                     Content
                 </th>
+                <th>
+                    Stack
+                </th>
 
 
             </tr>
@@ -34,6 +56,7 @@
             <tbody>
 
             @foreach ($items as $log)
+
                 <tr>
                     <td>
                         {{ $log['level'] }}
@@ -49,6 +72,13 @@
 
                         {{ $log['text'] }}
 {{--                        {{ $log['stack'] }}--}}
+                    </td>
+                    <td>
+                        @if($log['stack'])
+                            <a href="#" wire:click="getStack({{$loop->index}})">
+                                <i class="fas fa-list"></i>
+                            </a>
+                        @endif
                     </td>
                 </tr>
             @endforeach

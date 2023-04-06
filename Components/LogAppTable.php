@@ -21,6 +21,8 @@ class LogAppTable extends Component
     public $type;
     public $logFiles = [];
     public $logFile;
+    public $stacks = [];
+    public $stack;
 
     private $levels_imgs = [
         'debug' => 'info-circle',
@@ -76,7 +78,7 @@ class LogAppTable extends Component
             ->all();
 
         if(count($this->logFiles)) {
-            $this->logFile = $this->logFiles[0];
+            $this->logFile = end($this->logFiles);
         }
 
     }
@@ -121,6 +123,7 @@ class LogAppTable extends Component
                                 continue;
                             }
 
+                            $stack = preg_replace("/^\n*/", '', $log_data[$i]);
                             $log[] = array(
                                 'context' => $current[3],
                                 'level' => $level,
@@ -130,8 +133,9 @@ class LogAppTable extends Component
                                 'date' => $current[1],
                                 'text' => $current[4],
                                 'in_file' => isset($current[5]) ? $current[5] : null,
-                                //'stack' => preg_replace("/^\n*/", '', $log_data[$i])
+                                'stack' => $stack
                             );
+                            $this->stacks[] = $stack;
                         }
                     }
                 }
@@ -154,10 +158,17 @@ class LogAppTable extends Component
                         'in_file' => null,
                         'stack' => '',
                     ];
+                    $this->stacks[] = '';
                 }
             }
         }
         return array_reverse($log);
+    }
+
+    public function getStack($id) {
+
+        $this->stack = @$this->stacks[$id];
+        $this->dispatchBrowserEvent('show-modal',['stack']);
     }
 
     protected function getDataset()
