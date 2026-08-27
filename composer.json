@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/config": "^11.0",
-        "illuminate/contracts": "^11.0",
+        "illuminate/config": "^11.0|^12.0",
+        "illuminate/contracts": "^11.0|^12.0",
         "spatie/laravel-activitylog": "^3.0|^4.0",
         "romanzipp/laravel-queue-monitor": "^5.0"
     },
